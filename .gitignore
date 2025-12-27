@@ -1,0 +1,34 @@
+# Binaries for programs and plugins
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Test binaries and profiling outputs
+*.test
+*.out
+*.coverprofile
+*.cvg
+
+# Tool output
+*.prof
+
+# Dependency directories
+vendor/
+**/vendor/
+
+# Go workspace metadata
+go.work
+go.work.sum
+
+# IDE/editor files
+.idea/
+.vscode/
+
+# Local configuration
+*.env
+storage
+
+
+# macOS metadata
+.DS_Store
