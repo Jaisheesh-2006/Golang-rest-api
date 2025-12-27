@@ -27,7 +27,7 @@ go.work.sum
 
 # Local configuration
 *.env
-storage
+/storage
 
 
 # macOS metadata

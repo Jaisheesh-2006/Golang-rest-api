@@ -12,6 +12,7 @@ import (
 
 	"github.com/Jaisheesh-2006/Golang-rest-api/internal/config"
 	"github.com/Jaisheesh-2006/Golang-rest-api/internal/http/handlers/student"
+	"github.com/Jaisheesh-2006/Golang-rest-api/internal/storage/sqlite"
 	"github.com/fatih/color"
 )
 
@@ -22,10 +23,17 @@ func main() {
 
 	//* database setup
 
+	storage, err := sqlite.New(cfg)
+	if err != nil {
+		log.Fatalf("Error while connecting to the database: %v", err)
+	}
+
+	slog.Info("Database initialized", slog.String("env", cfg.Env), slog.String("version", "1.0.0"))
+
 	//* setup router
 
 	router := http.NewServeMux()
-	router.HandleFunc("POST /api/students", student.New())
+	router.HandleFunc("POST /api/students", student.New(storage))
 
 	//* start server
 

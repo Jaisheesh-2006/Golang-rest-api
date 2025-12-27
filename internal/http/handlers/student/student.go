@@ -7,12 +7,13 @@ import (
 	"log/slog"
 	"net/http"
 
+	"github.com/Jaisheesh-2006/Golang-rest-api/internal/storage"
 	"github.com/Jaisheesh-2006/Golang-rest-api/internal/types"
 	"github.com/Jaisheesh-2006/Golang-rest-api/internal/utils/responses"
 	"github.com/go-playground/validator/v10"
 )
 
-func New() http.HandlerFunc {
+func New(storage storage.Storage) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var student types.Student
 
@@ -30,9 +31,17 @@ func New() http.HandlerFunc {
 			responses.WriteJson(w, http.StatusBadRequest, responses.ValidationError(validationErrors))
 			return
 		}
+		//* create student in the database
 
-		responses.WriteJson(w, http.StatusCreated, map[string]string{
-			"message": "Student created successfully",
+		id,err:=storage.CreateStudent(student.Name,student.Age,student.Email)
+		if err!=nil{
+			slog.Error("Error while creating student",slog.String("error",err.Error()))
+			responses.WriteJson(w,http.StatusInternalServerError,responses.GeneralError(err))
+			return
+		}
+		slog.Info("Student created successfully",slog.Int64("id",id))
+		responses.WriteJson(w, http.StatusCreated, map[string]int64{
+			"id":id,
 		})
 
 	}
