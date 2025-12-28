@@ -6,6 +6,7 @@ import (
 	"io"
 	"log/slog"
 	"net/http"
+	"strconv"
 
 	"github.com/Jaisheesh-2006/Golang-rest-api/internal/storage"
 	"github.com/Jaisheesh-2006/Golang-rest-api/internal/types"
@@ -45,4 +46,27 @@ func New(storage storage.Storage) http.HandlerFunc {
 		})
 
 	}
+}
+
+func GetById(storage storage.Storage) http.HandlerFunc  {
+	return func(w http.ResponseWriter, r *http.Request) {
+		id:=r.PathValue("id")
+		//* Log first
+		slog.Info("Getting student by ID",slog.String("id",id))
+
+		//* Lets convert id to int64
+		intId,err:=strconv.ParseInt(id,10,64)
+		if err!=nil{
+			responses.WriteJson(w,http.StatusBadRequest,responses.GeneralError(err))
+			return
+		}
+		student,err:=storage.GetStudentById(intId)
+		if err!=nil{
+			slog.Error("Error while fetching student",slog.String("error",err.Error()))
+			responses.WriteJson(w,http.StatusInternalServerError,responses.GeneralError(err))
+			return
+		}
+		responses.WriteJson(w,http.StatusOK,student)
+	}
+		
 }
