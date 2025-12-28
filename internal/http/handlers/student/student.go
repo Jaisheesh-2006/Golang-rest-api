@@ -27,12 +27,12 @@ func New(storage storage.Storage) http.HandlerFunc {
 
 		//* request validation
 		if err := validator.New().Struct(student); err != nil {
-			validationErrors := err.(validator.ValidationErrors)
+			validationErrors := err.(validator.ValidationErrors) //*type assertion
 			responses.WriteJson(w, http.StatusBadRequest, responses.ValidationError(validationErrors))
 			return
 		}
+		
 		//* create student in the database
-
 		id,err:=storage.CreateStudent(student.Name,student.Age,student.Email)
 		if err!=nil{
 			slog.Error("Error while creating student",slog.String("error",err.Error()))

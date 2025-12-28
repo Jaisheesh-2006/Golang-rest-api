@@ -18,11 +18,9 @@ import (
 
 func main() {
 	//* load configuration
-
 	cfg := config.MustLoad()
 
 	//* database setup
-
 	storage, err := sqlite.New(cfg)
 	if err != nil {
 		log.Fatalf("Error while connecting to the database: %v", err)
@@ -31,12 +29,10 @@ func main() {
 	slog.Info("Database initialized", slog.String("env", cfg.Env), slog.String("version", "1.0.0"))
 
 	//* setup router
-
 	router := http.NewServeMux()
 	router.HandleFunc("POST /api/students", student.New(storage))
 
 	//* start server
-
 	server := http.Server{
 		Addr:    cfg.Address,
 		Handler: router,
@@ -59,7 +55,6 @@ func main() {
 	<-done
 
 	//* Graceful shutdown
-
 	slog.Info("shutting down the server")
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
