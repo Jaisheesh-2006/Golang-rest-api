@@ -32,41 +32,57 @@ func New(storage storage.Storage) http.HandlerFunc {
 			responses.WriteJson(w, http.StatusBadRequest, responses.ValidationError(validationErrors))
 			return
 		}
-		
+
 		//* create student in the database
-		id,err:=storage.CreateStudent(student.Name,student.Age,student.Email)
-		if err!=nil{
-			slog.Error("Error while creating student",slog.String("error",err.Error()))
-			responses.WriteJson(w,http.StatusInternalServerError,responses.GeneralError(err))
+		id, err := storage.CreateStudent(student.Name, student.Age, student.Email)
+		if err != nil {
+			slog.Error("Error while creating student", slog.String("error", err.Error()))
+			responses.WriteJson(w, http.StatusInternalServerError, responses.GeneralError(err))
 			return
 		}
-		slog.Info("Student created successfully",slog.Int64("id",id))
+		slog.Info("Student created successfully", slog.Int64("id", id))
 		responses.WriteJson(w, http.StatusCreated, map[string]int64{
-			"id":id,
+			"id": id,
 		})
 
 	}
 }
 
-func GetById(storage storage.Storage) http.HandlerFunc  {
+func GetById(storage storage.Storage) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		id:=r.PathValue("id")
+		id := r.PathValue("id")
 		//* Log first
-		slog.Info("Getting student by ID",slog.String("id",id))
+		slog.Info("Getting student by ID", slog.String("id", id))
 
 		//* Lets convert id to int64
-		intId,err:=strconv.ParseInt(id,10,64)
-		if err!=nil{
-			responses.WriteJson(w,http.StatusBadRequest,responses.GeneralError(err))
+		intId, err := strconv.ParseInt(id, 10, 64)
+		if err != nil {
+			responses.WriteJson(w, http.StatusBadRequest, responses.GeneralError(err))
 			return
 		}
-		student,err:=storage.GetStudentById(intId)
-		if err!=nil{
-			slog.Error("Error while fetching student",slog.String("error",err.Error()))
-			responses.WriteJson(w,http.StatusInternalServerError,responses.GeneralError(err))
+		student, err := storage.GetStudentById(intId)
+		if err != nil {
+			slog.Error("Error while fetching student", slog.String("error", err.Error()))
+			responses.WriteJson(w, http.StatusInternalServerError, responses.GeneralError(err))
 			return
 		}
-		responses.WriteJson(w,http.StatusOK,student)
+		responses.WriteJson(w, http.StatusOK, student)
 	}
-		
+
+}
+func GetList(storage storage.Storage) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		slog.Info("Getting list of students")
+
+		students, err := storage.GetStudents()
+		if err != nil {
+			slog.Error("Error while fetching students", slog.String("error", err.Error()))
+			responses.WriteJson(w, http.StatusInternalServerError, responses.GeneralError(err))
+			return
+		}
+		responses.WriteJson(w, http.StatusOK, students)
+		slog.Info("Students fetched successfully", slog.Int("count", len(students)))
+
+	} 
+
 }

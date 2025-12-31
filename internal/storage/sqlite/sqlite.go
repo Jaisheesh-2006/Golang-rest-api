@@ -56,27 +56,51 @@ func (s *SqLite) CreateStudent(name string, age int, email string) (int64, error
 
 }
 
-func (s *SqLite) GetStudentById(id int64) (types.Student, error)  {
-	 stmt, err := s.Db.Prepare("SELECT * FROM students WHERE id = ? LIMIT 1")
-	 if err != nil {
-		 return types.Student{}, err
-	 }
-	 defer stmt.Close()
+func (s *SqLite) GetStudentById(id int64) (types.Student, error) {
+	stmt, err := s.Db.Prepare("SELECT * FROM students WHERE id = ? LIMIT 1")
+	if err != nil {
+		return types.Student{}, err
+	}
+	defer stmt.Close()
 
-	 var student types.Student
+	var student types.Student
 
-	 err=stmt.QueryRow(id).Scan(&student.Id,&student.Name,&student.Email,&student.Age)
+	err = stmt.QueryRow(id).Scan(&student.Id, &student.Name, &student.Email, &student.Age)
 
-	 if err!=nil{
-		if err==sql.ErrNoRows{
-			return types.Student{},fmt.Errorf("No student found with id %d %w",id,err)
-		} 
-         return types.Student{},fmt.Errorf("Query error %w",err)
-	 }
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return types.Student{}, fmt.Errorf("No student found with id %d %w", id, err)
+		}
+		return types.Student{}, fmt.Errorf("Query error %w", err)
+	}
 
-	 return student,nil
+	return student, nil
 
+}
+func (s *SqLite) GetStudents() ([]types.Student, error)  {
+	stmt, err := s.Db.Prepare("SELECT * FROM students")
+	if err != nil {
+		return nil, err
+	}
 
+	defer stmt.Close()
 
+	rows, err := stmt.Query()
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
 
+	var students []types.Student
+
+	for rows.Next() {
+		var student types.Student
+		err := rows.Scan(&student.Id, &student.Name, &student.Email, &student.Age)
+		if err != nil {
+			return nil, err
+		}
+		students = append(students, student)
+	}
+	return students, nil
+	
 }
