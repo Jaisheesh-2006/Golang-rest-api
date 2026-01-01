@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Student, StudentFormData } from "../types";
 
-const API_URL = "http://localhost:8080/api/students";
+const API_URL = "/api/students";
 
 export const fetchStudents = async (): Promise<Student[]> => {
   try {
@@ -48,5 +48,15 @@ export const fetchStudentById = async (id: number): Promise<Student | null> => {
   } catch (error) {
     console.error("Error fetching student:", error);
     return null;
+  }
+};
+
+export const deleteStudent = async (id: number): Promise<boolean> => {
+  try {
+    await axios.delete(`${API_URL}/${id}`);
+    return true;
+  } catch (error) {
+    console.error("Error deleting student:", error);
+    return false;
   }
 };

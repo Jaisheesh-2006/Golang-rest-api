@@ -30,15 +30,33 @@ func main() {
 
 	//* setup router
 	router := http.NewServeMux()
+
+	//* CORS middleware wrapper
+	corsRouter := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Set CORS headers
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+		// Handle preflight requests
+		if r.Method == http.MethodOptions {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+
+		router.ServeHTTP(w, r)
+	})
+
 	router.HandleFunc("POST /api/students", student.New(storage))
 	router.HandleFunc("GET /api/students/{id}", student.GetById(storage))
 	router.HandleFunc("GET /api/students", student.GetList(storage))
 	router.HandleFunc("PATCH /api/students/{id}", student.UpdateStudentById(storage))
+	router.HandleFunc("DELETE /api/students/{id}", student.DeleteStudentById(storage))
 
 	//* start server
 	server := http.Server{
 		Addr:    cfg.Address,
-		Handler: router,
+		Handler: corsRouter,
 	}
 
 	color.Green("Server started at %s", cfg.Address)
