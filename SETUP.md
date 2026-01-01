@@ -3,6 +3,7 @@
 ## Overview
 
 This is a full-stack application with:
+
 - **Backend**: Go REST API server on port 8080
 - **Frontend**: React + TypeScript application on port 3000
 
@@ -15,20 +16,24 @@ This is a full-stack application with:
 ## Backend Setup
 
 ### 1. Navigate to Backend Directory
+
 ```bash
 cd Go_Project
 ```
 
 ### 2. Install Go Dependencies
+
 ```bash
 go mod download
 ```
 
 ### 3. Configuration
+
 - Configuration file: `config/local.yaml`
 - Ensure the database path and port are correctly set
 
 ### 4. Run the Backend
+
 ```bash
 go run cmd/students-api/main.go
 ```
@@ -36,6 +41,7 @@ go run cmd/students-api/main.go
 The backend will start on `http://localhost:8080`
 
 Expected output:
+
 ```
 Server started at :8080
 ```
@@ -43,16 +49,19 @@ Server started at :8080
 ## Frontend Setup
 
 ### 1. Navigate to Frontend Directory
+
 ```bash
 cd students-frontend
 ```
 
 ### 2. Install Dependencies (if not already done)
+
 ```bash
 npm install
 ```
 
 ### 3. Development Mode
+
 ```bash
 npm run dev
 ```
@@ -60,6 +69,7 @@ npm run dev
 The frontend will start on `http://localhost:3000`
 
 ### 4. Production Build
+
 ```bash
 npm run build
 ```
@@ -71,6 +81,7 @@ Output will be in the `dist/` directory.
 All endpoints are prefixed with `/api/students`
 
 ### Create Student
+
 ```bash
 POST /api/students
 Content-Type: application/json
@@ -83,16 +94,19 @@ Content-Type: application/json
 ```
 
 ### Get All Students
+
 ```bash
 GET /api/students
 ```
 
 ### Get Student by ID
+
 ```bash
 GET /api/students/{id}
 ```
 
 ### Update Student
+
 ```bash
 PATCH /api/students/{id}
 Content-Type: application/json
@@ -107,26 +121,32 @@ Content-Type: application/json
 ## Common Issues
 
 ### Port Already in Use
+
 If port 8080 or 3000 is already in use:
+
 - Go backend: Update `config/local.yaml` to use a different port
 - React frontend: Set `VITE_PORT=3001` before running
 
 ### CORS Issues
+
 The Vite dev server proxies `/api` requests to the backend, so CORS should work automatically.
 
 ### Database Connection Issues
+
 - Ensure the SQLite database file path is correct in `config/local.yaml`
 - Make sure the `storage/` directory exists
 
 ## Development Workflow
 
 1. **Start Backend Terminal**
+
    ```bash
    cd Go_Project
    go run cmd/students-api/main.go
    ```
 
 2. **Start Frontend Terminal**
+
    ```bash
    cd Go_Project/students-frontend
    npm run dev
@@ -139,12 +159,14 @@ The Vite dev server proxies `/api` requests to the backend, so CORS should work 
 ## Build for Production
 
 ### Backend
+
 ```bash
 go build -o students-api cmd/students-api/main.go
 ./students-api
 ```
 
 ### Frontend
+
 ```bash
 cd students-frontend
 npm run build
@@ -154,16 +176,19 @@ npm run build
 ## Troubleshooting
 
 ### Frontend shows "Loading students..." forever
+
 - Check that the Go backend is running
 - Verify the API URL in `src/services/api.ts` matches your backend address
 - Check browser console for network errors
 
 ### Form submission fails
+
 - Ensure the backend is running
 - Check that the student data matches the expected format
 - Look at the Go server logs for error messages
 
 ### Build fails
+
 ```bash
 # Clear node_modules and reinstall
 rm -rf node_modules

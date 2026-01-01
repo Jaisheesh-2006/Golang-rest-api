@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Student } from '../types';
-import StudentCard from './StudentCard';
-import { fetchStudents } from '../services/api';
-import './StudentList.css';
+import React, { useEffect, useState } from "react";
+import { Student } from "../types";
+import StudentCard from "./StudentCard";
+import { fetchStudents } from "../services/api";
+import "./StudentList.css";
 
 const StudentList: React.FC = () => {
   const [students, setStudents] = useState<Student[]>([]);
@@ -17,7 +17,7 @@ const StudentList: React.FC = () => {
         const data = await fetchStudents();
         setStudents(data);
       } catch (err) {
-        setError('Failed to fetch students');
+        setError("Failed to fetch students");
         console.error(err);
       } finally {
         setLoading(false);
@@ -36,14 +36,18 @@ const StudentList: React.FC = () => {
   }
 
   if (students.length === 0) {
-    return <div className="empty-state">No students yet. Add one to get started!</div>;
+    return (
+      <div className="empty-state">
+        No students yet. Add one to get started!
+      </div>
+    );
   }
 
   return (
     <div className="student-list">
       <h2>Students ({students.length})</h2>
       <div className="cards-container">
-        {students.map(student => (
+        {students.map((student) => (
           <StudentCard key={student.id} student={student} />
         ))}
       </div>

@@ -1,13 +1,13 @@
-import React, { useState, useCallback } from 'react';
-import StudentForm from '../components/StudentForm';
-import StudentList from '../components/StudentList';
-import './Home.css';
+import React, { useState, useCallback } from "react";
+import StudentForm from "../components/StudentForm";
+import StudentList from "../components/StudentList";
+import "./Home.css";
 
 const Home: React.FC = () => {
   const [refreshKey, setRefreshKey] = useState(0);
 
   const handleStudentAdded = useCallback(() => {
-    setRefreshKey(prev => prev + 1);
+    setRefreshKey((prev) => prev + 1);
   }, []);
 
   return (

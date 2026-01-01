@@ -1,6 +1,6 @@
-import React from 'react';
-import { Student } from '../types';
-import './StudentCard.css';
+import React from "react";
+import { Student } from "../types";
+import "./StudentCard.css";
 
 interface StudentCardProps {
   student: Student;
@@ -18,7 +18,8 @@ const StudentCard: React.FC<StudentCardProps> = ({ student }) => {
           <strong>Age:</strong> {student.age}
         </p>
         <p>
-          <strong>Grade:</strong> <span className="grade-badge">{student.grade}</span>
+          <strong>Email:</strong>{" "}
+          <span className="email-badge">{student.email}</span>
         </p>
       </div>
     </div>

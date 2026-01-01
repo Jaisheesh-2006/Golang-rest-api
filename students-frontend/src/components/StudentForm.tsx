@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { StudentFormData } from '../types';
-import { addStudent } from '../services/api';
-import './StudentForm.css';
+import React, { useState } from "react";
+import { StudentFormData } from "../types";
+import { addStudent } from "../services/api";
+import "./StudentForm.css";
 
 interface StudentFormProps {
   onStudentAdded?: () => void;
@@ -9,9 +9,9 @@ interface StudentFormProps {
 
 const StudentForm: React.FC<StudentFormProps> = ({ onStudentAdded }) => {
   const [formData, setFormData] = useState<StudentFormData>({
-    name: '',
+    name: "",
     age: 0,
-    grade: '',
+    email: "",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -21,7 +21,7 @@ const StudentForm: React.FC<StudentFormProps> = ({ onStudentAdded }) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: name === 'age' ? parseInt(value) || 0 : value,
+      [name]: name === "age" ? parseInt(value) || 0 : value,
     });
   };
 
@@ -35,16 +35,19 @@ const StudentForm: React.FC<StudentFormProps> = ({ onStudentAdded }) => {
       const result = await addStudent(formData);
       if (result) {
         setSuccess(true);
-        setFormData({ name: '', age: 0, grade: '' });
+        setFormData({ name: "", age: 0, email: "" });
         if (onStudentAdded) {
           onStudentAdded();
         }
         setTimeout(() => setSuccess(false), 3000);
       } else {
-        setError('Failed to add student');
+        setError("Failed to add student");
       }
     } catch (err) {
-      setError('Error adding student: ' + (err instanceof Error ? err.message : 'Unknown error'));
+      setError(
+        "Error adding student: " +
+          (err instanceof Error ? err.message : "Unknown error")
+      );
     } finally {
       setLoading(false);
     }
@@ -80,23 +83,25 @@ const StudentForm: React.FC<StudentFormProps> = ({ onStudentAdded }) => {
       </div>
 
       <div className="form-group">
-        <label htmlFor="grade">Grade:</label>
+        <label htmlFor="email">Email:</label>
         <input
-          id="grade"
-          type="text"
-          name="grade"
-          value={formData.grade}
+          id="email"
+          type="email"
+          name="email"
+          value={formData.email}
           onChange={handleChange}
-          placeholder="Enter grade (e.g., A, B, C)"
+          placeholder="Enter email address"
           required
         />
       </div>
 
       {error && <div className="error-message">{error}</div>}
-      {success && <div className="success-message">Student added successfully!</div>}
+      {success && (
+        <div className="success-message">Student added successfully!</div>
+      )}
 
       <button type="submit" disabled={loading}>
-        {loading ? 'Adding...' : 'Add Student'}
+        {loading ? "Adding..." : "Add Student"}
       </button>
     </form>
   );

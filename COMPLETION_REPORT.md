@@ -7,16 +7,19 @@ Your React frontend for the Go Student Management API is now **fully functional 
 ## 📦 What's Included
 
 ### Components ✨
+
 - **StudentForm** - Beautiful form to add new students
 - **StudentList** - Displays all students in a grid layout
 - **StudentCard** - Individual student information cards
 - **Home** - Main page layout with form and list
 
 ### Services & Types 🔧
+
 - **API Service** (Axios) - Handles all communication with Go backend
 - **TypeScript Interfaces** - Full type safety for Student and FormData
 
 ### Styling 🎨
+
 - Beautiful purple gradient background (#667eea → #764ba2)
 - Responsive grid layout for student cards
 - Smooth animations and transitions
@@ -24,6 +27,7 @@ Your React frontend for the Go Student Management API is now **fully functional 
 - Professional UI with shadows and effects
 
 ### Configuration ⚙️
+
 - Vite dev server on port 3000 with HMR
 - Proxy setup for Go backend API calls
 - TypeScript strict mode enabled
@@ -60,18 +64,21 @@ students-frontend/
 ## 🚀 How to Run
 
 ### Step 1: Start Backend (Terminal 1)
+
 ```bash
 cd c:\Users\Balagowni Jaisheesh\Desktop\Dev\GO\Go_Project
 go run cmd/students-api/main.go
 ```
 
 ### Step 2: Start Frontend (Terminal 2)
+
 ```bash
 cd c:\Users\Balagowni Jaisheesh\Desktop\Dev\GO\Go_Project\students-frontend
 npm run dev
 ```
 
 ### Step 3: Open Browser
+
 Navigate to: **http://localhost:3000**
 
 ## ✨ Features
@@ -126,6 +133,7 @@ Ready for production deployment!
 ## 🔌 API Integration
 
 Frontend communicates with Go backend API:
+
 - **Base URL**: http://localhost:8080/api/students
 - **GET** `/api/students` - Get all students
 - **POST** `/api/students` - Add student
@@ -157,6 +165,7 @@ Frontend communicates with Go backend API:
 ## 🎯 Ready for Next Steps
 
 Your frontend is ready to:
+
 1. Run in development mode with hot reload
 2. Build for production
 3. Deploy to any static hosting service

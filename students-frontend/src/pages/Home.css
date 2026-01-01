@@ -1,86 +1,87 @@
 .home {
-  min-height: 100vh;
-  padding: 40px 20px;
+    min-height: 100vh;
+    padding: 40px 20px;
 }
 
 .app-header {
-  text-align: center;
-  color: white;
-  margin-bottom: 50px;
-  animation: slideDown 0.6s ease-out;
+    text-align: center;
+    color: white;
+    margin-bottom: 50px;
+    animation: slideDown 0.6s ease-out;
 }
 
 .app-header h1 {
-  font-size: 3rem;
-  margin-bottom: 10px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    font-size: 3rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .app-header p {
-  font-size: 1.2rem;
-  opacity: 0.9;
+    font-size: 1.2rem;
+    opacity: 0.9;
 }
 
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 40px;
 }
 
 .form-section {
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  height: fit-content;
-  position: sticky;
-  top: 40px;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    height: fit-content;
+    position: sticky;
+    top: 40px;
 }
 
 .form-section h2 {
-  margin-bottom: 20px;
-  color: #333;
-  font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 1.5rem;
 }
 
 .list-section {
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .list-section h2 {
-  color: #333;
-  margin-bottom: 20px;
-  font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
 }
 
 @media (max-width: 768px) {
-  .container {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
+    .container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
 
-  .form-section {
-    position: relative;
-    top: 0;
-  }
+    .form-section {
+        position: relative;
+        top: 0;
+    }
 
-  .app-header h1 {
-    font-size: 2rem;
-  }
+    .app-header h1 {
+        font-size: 2rem;
+    }
 }
 
 @keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

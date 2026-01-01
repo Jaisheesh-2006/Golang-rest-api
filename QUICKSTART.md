@@ -3,18 +3,21 @@
 ## One-Minute Setup
 
 ### Start the Go Backend
+
 ```bash
 cd c:\Users\Balagowni Jaisheesh\Desktop\Dev\GO\Go_Project
 go run cmd/students-api/main.go
 ```
 
 ### Start the React Frontend (in another terminal)
+
 ```bash
 cd c:\Users\Balagowni Jaisheesh\Desktop\Dev\GO\Go_Project\students-frontend
 npm run dev
 ```
 
 ### Open in Browser
+
 Navigate to: **http://localhost:3000**
 
 ---
@@ -22,6 +25,7 @@ Navigate to: **http://localhost:3000**
 ## What You'll See
 
 ✅ **Beautiful Student Management Interface**
+
 - Purple gradient background
 - Form to add new students (name, age, grade)
 - List of students displayed as cards
@@ -31,11 +35,13 @@ Navigate to: **http://localhost:3000**
 ## Features to Try
 
 1. **Add a Student**
+
    - Fill in the form on the left
    - Click "Add Student"
    - See the list update automatically
 
 2. **View Students**
+
    - Scroll through the student cards
    - See each student's ID, name, age, and grade
 
@@ -45,17 +51,18 @@ Navigate to: **http://localhost:3000**
 
 ## File Locations
 
-| Item | Location |
-|------|----------|
-| Frontend Code | `students-frontend/src/` |
+| Item          | Location                      |
+| ------------- | ----------------------------- |
+| Frontend Code | `students-frontend/src/`      |
 | Frontend Docs | `students-frontend/README.md` |
-| Backend Code | `cmd/students-api/` |
-| Setup Guide | `SETUP.md` |
-| Summary | `FRONTEND_SUMMARY.md` |
+| Backend Code  | `cmd/students-api/`           |
+| Setup Guide   | `SETUP.md`                    |
+| Summary       | `FRONTEND_SUMMARY.md`         |
 
 ## Common Commands
 
 ### Frontend
+
 ```bash
 cd students-frontend
 
@@ -73,6 +80,7 @@ npm install
 ```
 
 ### Backend
+
 ```bash
 # Run development server
 go run cmd/students-api/main.go
@@ -87,14 +95,18 @@ go build -o students-api cmd/students-api/main.go
 ## Troubleshooting
 
 ### Issue: Frontend shows "Loading..." forever
+
 **Solution**: Make sure the Go backend is running on port 8080
 
 ### Issue: Port already in use
-**Solution**: 
+
+**Solution**:
+
 - Backend: Change port in `config/local.yaml`
 - Frontend: Stop other processes using the port
 
 ### Issue: Network errors in console
+
 **Solution**: Check that both servers are running and ports are correct
 
 ## Tech Stack
