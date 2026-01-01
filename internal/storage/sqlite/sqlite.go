@@ -5,6 +5,7 @@ package sqlite
 import (
 	"database/sql"
 	"fmt"
+	"strings"
 
 	"github.com/Jaisheesh-2006/Golang-rest-api/internal/config"
 	"github.com/Jaisheesh-2006/Golang-rest-api/internal/types"
@@ -77,7 +78,7 @@ func (s *SqLite) GetStudentById(id int64) (types.Student, error) {
 	return student, nil
 
 }
-func (s *SqLite) GetStudents() ([]types.Student, error)  {
+func (s *SqLite) GetStudents() ([]types.Student, error) {
 	stmt, err := s.Db.Prepare("SELECT * FROM students")
 	if err != nil {
 		return nil, err
@@ -102,5 +103,44 @@ func (s *SqLite) GetStudents() ([]types.Student, error)  {
 		students = append(students, student)
 	}
 	return students, nil
-	
+
 }
+func (s *SqLite) UpdateStudentById(id int64, name string, age int, email string) error {
+	query := "UPDATE students SET "
+	args := []any{}
+	updates := []string{}
+
+	if name != "" {
+		updates = append(updates, "name = ?")
+		args = append(args, name)
+	}
+
+	if age > 0 {
+		updates = append(updates, "age = ?")
+		args = append(args, age)
+	}
+
+	if email != "" {
+		updates = append(updates, "email = ?")
+		args = append(args, email)
+	}
+
+	// Nothing to update
+	if len(updates) == 0 {
+		return nil
+	}
+
+	query += strings.Join(updates, ", ")
+	query += " WHERE id = ?"
+	args = append(args, id)
+
+	stmt, err := s.Db.Prepare(query)
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(args...)
+	return err
+}
+

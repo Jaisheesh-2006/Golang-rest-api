@@ -3,6 +3,7 @@ package student
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"log/slog"
 	"net/http"
@@ -83,6 +84,32 @@ func GetList(storage storage.Storage) http.HandlerFunc {
 		responses.WriteJson(w, http.StatusOK, students)
 		slog.Info("Students fetched successfully", slog.Int("count", len(students)))
 
-	} 
+	}
 
+}
+func UpdateStudentById(storage storage.Storage) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		id := r.PathValue("id")
+		intId, err := strconv.ParseInt(id, 10, 64)
+		slog.Info("Updating student", slog.Int64("id", intId))
+		if err != nil {
+			responses.WriteJson(w, http.StatusBadRequest, responses.GeneralError(err))
+			return
+		}
+		var student types.Student
+		err = json.NewDecoder(r.Body).Decode(&student)
+		if err != nil {
+			responses.WriteJson(w, http.StatusBadRequest, responses.GeneralError(err))
+			return
+		}
+		err = storage.UpdateStudentById(intId, student.Name, student.Age, student.Email)
+		if err != nil {
+			slog.Error("Error while updating student", slog.String("error", err.Error()))
+			responses.WriteJson(w, http.StatusInternalServerError, responses.GeneralError(err))
+			return
+		}
+		responses.WriteJson(w, http.StatusOK, fmt.Sprintf("Student with id %d updated successfully", intId))
+		slog.Info("Updated student sucessfully", slog.Int64("id", intId))
+
+	}
 }
