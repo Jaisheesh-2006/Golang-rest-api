@@ -41,18 +41,14 @@ const StudentList: React.FC<StudentListProps> = ({ onRefresh }) => {
 
   const handleStudentUpdated = (updatedStudent: Student) => {
     setStudents((prevStudents) =>
-      prevStudents.map((s) =>
-        s.id === updatedStudent.id ? updatedStudent : s
-      )
+      prevStudents.map((s) => (s.id === updatedStudent.id ? updatedStudent : s))
     );
   };
 
   const handleDelete = async (id: number) => {
     const success = await deleteStudent(id);
     if (success) {
-      setStudents((prevStudents) =>
-        prevStudents.filter((s) => s.id !== id)
-      );
+      setStudents((prevStudents) => prevStudents.filter((s) => s.id !== id));
     } else {
       alert("Failed to delete student");
     }
