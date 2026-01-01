@@ -1,0 +1,46 @@
+# Git
+.git
+.gitignore
+
+# Go
+go.sum
+*.mod
+
+# Node
+node_modules/
+package-lock.json
+npm-debug.log
+
+# Build artifacts
+dist/
+.next/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+
+# Documentation
+README.md
+SETUP.md
+
+# Test coverage
+coverage/
+*.out
+
+# Database
+storage/storage.db

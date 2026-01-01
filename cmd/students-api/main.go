@@ -53,6 +53,10 @@ func main() {
 	router.HandleFunc("PATCH /api/students/{id}", student.UpdateStudentById(storage))
 	router.HandleFunc("DELETE /api/students/{id}", student.DeleteStudentById(storage))
 
+	// Serve static frontend files in production
+	router.Handle("GET /", http.FileServer(http.Dir("public")))
+	router.Handle("GET /assets/", http.FileServer(http.Dir("public")))
+
 	//* start server
 	server := http.Server{
 		Addr:    cfg.Address,

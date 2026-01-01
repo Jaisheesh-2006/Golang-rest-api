@@ -34,6 +34,33 @@ Navigate to `http://localhost:3000`
 
 ---
 
+## Quick Start with Docker (1 minute)
+
+### Prerequisites
+
+- Docker
+- Docker Compose
+
+### Using Docker Compose
+
+```bash
+docker-compose up --build
+```
+
+Application runs at `http://localhost:8080` (includes both backend and frontend)
+
+### Using Docker Directly
+
+```bash
+# Build image
+docker build -t student-app .
+
+# Run container
+docker run -p 8080:8080 -v $(pwd)/storage:/app/storage student-app
+```
+
+---
+
 ## Features
 
 ### ✅ Implemented
