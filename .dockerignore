@@ -2,10 +2,6 @@
 .git
 .gitignore
 
-# Go
-go.sum
-*.mod
-
 # Node
 node_modules/
 package-lock.json
