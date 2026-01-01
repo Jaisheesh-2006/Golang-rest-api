@@ -154,4 +154,3 @@ func (s *SqLite) DeleteStudentById(id int64) error {
 	_, err = stmt.Exec(id)
 	return err
 }
-
