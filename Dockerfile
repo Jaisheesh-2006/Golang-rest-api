@@ -14,8 +14,6 @@ RUN npm run build
 # Stage 2: Build Backend
 FROM golang:1.25-alpine AS backend-builder
 
-RUN apk add --no-cache git make musl-dev sqlite-dev
-
 WORKDIR /app
 
 COPY go.mod go.sum ./
@@ -24,7 +22,7 @@ RUN go mod download
 
 COPY . .
 
-RUN CGO_ENABLED=1 GOOS=linux go build -a -installsuffix cgo -o students-api ./cmd/students-api/main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -o students-api ./cmd/students-api/main.go
 
 # Stage 3: Final Runtime Image
 FROM gcr.io/distroless/cc-debian11
