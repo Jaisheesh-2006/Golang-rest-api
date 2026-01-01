@@ -9,7 +9,7 @@ import (
 
 	"github.com/Jaisheesh-2006/Golang-rest-api/internal/config"
 	"github.com/Jaisheesh-2006/Golang-rest-api/internal/types"
-	_ "github.com/mattn/go-sqlite3"
+	_ "modernc.org/sqlite"
 )
 
 type SqLite struct {
@@ -18,7 +18,7 @@ type SqLite struct {
 
 // * constructor function to initialize SqLite struct
 func New(cfg *config.Config) (*SqLite, error) {
-	db, err := sql.Open("sqlite3", cfg.StoragePath)
+	db, err := sql.Open("sqlite", cfg.StoragePath)
 	if err != nil {
 		return nil, err
 	}
