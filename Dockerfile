@@ -1,5 +1,5 @@
 # Stage 1: Build Frontend
-FROM node:18-alpine as frontend-builder
+FROM node:18-alpine AS frontend-builder
 
 WORKDIR /frontend
 
@@ -12,7 +12,9 @@ COPY students-frontend/ .
 RUN npm run build
 
 # Stage 2: Build Backend
-FROM golang:1.25-alpine as backend-builder
+FROM golang:1.25-alpine AS backend-builder
+
+RUN apk add --no-cache git make musl-dev sqlite-dev
 
 WORKDIR /app
 
