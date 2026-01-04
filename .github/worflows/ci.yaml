@@ -1,0 +1,90 @@
+name : CI
+
+on:
+  push:
+    branches:
+      - main
+  paths-ignore:
+      - 'README.md'
+      - 'helm/**
+      
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.25'
+
+      - name : Build 
+        run : go build -o go-web-app
+      
+      - name : Run tests
+        run : go test ./...
+  
+  code-quality:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: v1.59.2
+  
+  push:
+    runs-on: ubuntu-latest
+
+    needs: build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile  
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/go-web-app:${{github.run_id}}
+    
+    update-newtag-in-helm-chart:
+      runs-on: ubuntu-latest
+
+      needs: push
+
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+          with:
+            token: ${{ secrets.TOKEN}}
+        - name: Update tag in Helm Chart
+          run: |
+            NEW_TAG=${{ github.run_id }}
+            sed -i "s/tag: .*/tag: \"$NEW_TAG\"/" helm/go-web-app-chart/values.yaml
+
+        - name: Update Helm Chart with new image tag
+          run: |
+            git config --global user.name Jaisheesh-2006'
+            git config --global user.email jaicodes2006@gmail.com'
+            git add helm/go-web-app/values.yaml
+            git commit -m "Update Helm chart with new image tag $NEW_TAG"
+            git push origin HEAD:main
