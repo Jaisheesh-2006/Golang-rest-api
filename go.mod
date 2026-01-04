@@ -1,6 +1,8 @@
 module github.com/Jaisheesh-2006/Golang-rest-api
 
-go 1.22.0
+go 1.24.0
+
+toolchain go1.24.5
 
 require (
 	github.com/fatih/color v1.18.0
