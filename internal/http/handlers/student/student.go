@@ -22,7 +22,7 @@ func New(storage storage.Storage) http.HandlerFunc {
 		err := json.NewDecoder(r.Body).Decode(&student)
 
 		if errors.Is(err, io.EOF) || err != nil {
-			responses.WriteJson(w, http.StatusBadRequest, responses.GeneralError(err))
+			_ = responses.WriteJson(w, http.StatusBadRequest, responses.GeneralError(err))
 			return
 		}
 		slog.Info("Creating a student")
@@ -30,7 +30,7 @@ func New(storage storage.Storage) http.HandlerFunc {
 		//* request validation
 		if err := validator.New().Struct(student); err != nil {
 			validationErrors := err.(validator.ValidationErrors) //*type assertion
-			responses.WriteJson(w, http.StatusBadRequest, responses.ValidationError(validationErrors))
+			_ = responses.WriteJson(w, http.StatusBadRequest, responses.ValidationError(validationErrors))
 			return
 		}
 
@@ -38,11 +38,11 @@ func New(storage storage.Storage) http.HandlerFunc {
 		id, err := storage.CreateStudent(student.Name, student.Age, student.Email)
 		if err != nil {
 			slog.Error("Error while creating student", slog.String("error", err.Error()))
-			responses.WriteJson(w, http.StatusInternalServerError, responses.GeneralError(err))
+			_ = responses.WriteJson(w, http.StatusInternalServerError, responses.GeneralError(err))
 			return
 		}
 		slog.Info("Student created successfully", slog.Int64("id", id))
-		responses.WriteJson(w, http.StatusCreated, map[string]int64{
+		_ = responses.WriteJson(w, http.StatusCreated, map[string]int64{
 			"id": id,
 		})
 
@@ -58,16 +58,16 @@ func GetById(storage storage.Storage) http.HandlerFunc {
 		//* Lets convert id to int64
 		intId, err := strconv.ParseInt(id, 10, 64)
 		if err != nil {
-			responses.WriteJson(w, http.StatusBadRequest, responses.GeneralError(err))
+			_ = responses.WriteJson(w, http.StatusBadRequest, responses.GeneralError(err))
 			return
 		}
 		student, err := storage.GetStudentById(intId)
 		if err != nil {
 			slog.Error("Error while fetching student", slog.String("error", err.Error()))
-			responses.WriteJson(w, http.StatusInternalServerError, responses.GeneralError(err))
+			_ = responses.WriteJson(w, http.StatusInternalServerError, responses.GeneralError(err))
 			return
 		}
-		responses.WriteJson(w, http.StatusOK, student)
+		_ = responses.WriteJson(w, http.StatusOK, student)
 	}
 
 }
@@ -78,10 +78,10 @@ func GetList(storage storage.Storage) http.HandlerFunc {
 		students, err := storage.GetStudents()
 		if err != nil {
 			slog.Error("Error while fetching students", slog.String("error", err.Error()))
-			responses.WriteJson(w, http.StatusInternalServerError, responses.GeneralError(err))
+			_ = responses.WriteJson(w, http.StatusInternalServerError, responses.GeneralError(err))
 			return
 		}
-		responses.WriteJson(w, http.StatusOK, students)
+		_ = responses.WriteJson(w, http.StatusOK, students)
 		slog.Info("Students fetched successfully", slog.Int("count", len(students)))
 
 	}
@@ -93,22 +93,22 @@ func UpdateStudentById(storage storage.Storage) http.HandlerFunc {
 		intId, err := strconv.ParseInt(id, 10, 64)
 		slog.Info("Updating student", slog.Int64("id", intId))
 		if err != nil {
-			responses.WriteJson(w, http.StatusBadRequest, responses.GeneralError(err))
+			_ = responses.WriteJson(w, http.StatusBadRequest, responses.GeneralError(err))
 			return
 		}
 		var student types.Student
 		err = json.NewDecoder(r.Body).Decode(&student)
 		if err != nil {
-			responses.WriteJson(w, http.StatusBadRequest, responses.GeneralError(err))
+			_ = responses.WriteJson(w, http.StatusBadRequest, responses.GeneralError(err))
 			return
 		}
 		err = storage.UpdateStudentById(intId, student.Name, student.Age, student.Email)
 		if err != nil {
 			slog.Error("Error while updating student", slog.String("error", err.Error()))
-			responses.WriteJson(w, http.StatusInternalServerError, responses.GeneralError(err))
+			_ = responses.WriteJson(w, http.StatusInternalServerError, responses.GeneralError(err))
 			return
 		}
-		responses.WriteJson(w, http.StatusOK, fmt.Sprintf("Student with id %d updated successfully", intId))
+		_ = responses.WriteJson(w, http.StatusOK, fmt.Sprintf("Student with id %d updated successfully", intId))
 		slog.Info("Updated student sucessfully", slog.Int64("id", intId))
 
 	}
@@ -120,16 +120,16 @@ func DeleteStudentById(storage storage.Storage) http.HandlerFunc {
 		intId, err := strconv.ParseInt(id, 10, 64)
 		slog.Info("Deleting student", slog.Int64("id", intId))
 		if err != nil {
-			responses.WriteJson(w, http.StatusBadRequest, responses.GeneralError(err))
+			_ = responses.WriteJson(w, http.StatusBadRequest, responses.GeneralError(err))
 			return
 		}
 		err = storage.DeleteStudentById(intId)
 		if err != nil {
 			slog.Error("Error while deleting student", slog.String("error", err.Error()))
-			responses.WriteJson(w, http.StatusInternalServerError, responses.GeneralError(err))
+			_ = responses.WriteJson(w, http.StatusInternalServerError, responses.GeneralError(err))
 			return
 		}
-		responses.WriteJson(w, http.StatusOK, fmt.Sprintf("Student with id %d deleted successfully", intId))
+		_ = responses.WriteJson(w, http.StatusOK, fmt.Sprintf("Student with id %d deleted successfully", intId))
 		slog.Info("Deleted student successfully", slog.Int64("id", intId))
 	}
 }
